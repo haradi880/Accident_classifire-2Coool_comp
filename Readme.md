@@ -1,224 +1,245 @@
-# 🚗 Traffic Incident Analysis System - Competition Documentation
+# Traffic Incident Analysis System — Competition Documentation
 
-## 🏆 Competition Overview
+## Competition Overview
 
-**2Coool Kaggle Competition**  
-**Dates**: August 24, 2025 - September 29, 2025  
-**Team**: HaradiBots  
-**Developer**: Aditya (HaradiBots)
+**2Coool Kaggle Competition**
+**Timeline:** August 24, 2025 — September 29, 2025
+**Team:** HaradiBots
+**Developer:** Aditya (HaradiBots)
 
-## 📁 Project Structure
 
-### 🎯 Core Components
+
+# <i class="fa-solid fa-folder-tree"></i> Project Structure
+
+### Core Components
 
 ```
 traffic-analysis-system/
-├── 🏋️‍♂️ Model Training/
+├── Model Training/
 │   └── Accident_model_training.py
-├── 🔍 Model Testing/
+├── Model Testing/
 │   └── Testing_of_Accident_pth.py
-├── 🎥 Object Detection & Tracking/
+├── Object Detection & Tracking/
 │   └── Yolo_model_Counter.py
-├── 🚀 Main Competition Code/
+├── Main Competition Code/
 │   └── Both_mix_code_submission.py
-└── 📦 Model Weights/
+└── Model Weights/
     └── accident_model.pth
 ```
 
-## 🛠️ System Architecture
 
-### 1. **Accident Classification Model** 🏋️‍♂️
 
-**File**: `Accident_model_training.py`
+# <i class="fa-solid fa-layer-group"></i> System Architecture
 
-#### Purpose:
-- Train a deep learning model to classify traffic incidents
-- Output: `accident_model.pth` weights file
+## 1. Accident Classification Model
 
-#### Model Classes:
+**File:** `Accident_model_training.py`
+
+### Purpose
+
+* Trains a deep learning model for traffic-incident classification
+* Outputs model weights: `accident_model.pth`
+
+### Model Classes
+
 ```python
 {
     0: "No Incident",
-    1: "Near Collision", 
+    1: "Near Collision",
     2: "Collision"
 }
 ```
 
-#### Hardware Requirements:
-- **GPU**: T4, P100, or equivalent
-- **VRAM**: Minimum 8GB recommended
+### Hardware Recommendations
 
-#### Alternative Model Download:
+* GPU: NVIDIA T4 / P100 or equivalent
+* VRAM: Minimum 8GB
+
+### Pretrained Model (Optional)
+
 ```bash
-# Download pre-trained model from Kaggle
 kaggle models download haradibots/1st-model_accident_classifire/PyTorch/default/1
 ```
 
----
 
-### 2. **Model Testing & Validation** 🔍
 
-**File**: `Testing_of_Accident_pth.py`
+## 2. Model Testing & Validation
 
-#### Features:
-- Load and test the trained accident classification model
-- Validate model performance on test datasets
-- Output classification results with confidence scores
+**File:** `Testing_of_Accident_pth.py`
 
-#### Sample Output:
+### Features
+
+* Loads trained accident-classification model
+* Performs validation on test datasets
+* Returns predicted class and confidence score
+
+### Example Output
+
 ```json
 {
     "prediction": 1,
-    "class_name": "Near Collision", 
+    "class_name": "Near Collision",
     "confidence": 0.87
 }
 ```
 
----
 
-### 3. **YOLO Object Counter & Tracker** 🎥
 
-**File**: `Yolo_model_Counter.py`
+## 3. YOLO Object Detection & Tracking
 
-#### Capabilities:
+**File:** `Yolo_model_Counter.py`
 
-#### 🎯 Object Detection:
-- Uses YOLOv8m model for object detection
-- Processes 16-24 frames per video segment
-- Real-time object classification and counting
+### Capabilities
 
-#### 📊 Movement Tracking:
-- Tracks object trajectories and directions
-- Generates movement narratives
-- Directional analysis (↑↓→←)
+#### Object Detection
 
-#### 📈 Output Types:
+* Uses YOLOv8m model
+* Processes 16–24 frames per video segment
+* Detects cars, buses, pedestrians, two-wheelers, animals, etc.
 
-**1. Object Counts:**
+#### Object Tracking
+
+* Tracks centroids and movement direction
+* Generates movement narratives
+* Supports directional analysis (up, down, left, right)
+
+### Output Formats
+
+#### Object Counts
+
 ```python
 Final Video Summary:
 car: 5
-person: 3  
+person: 3
 bus: 1
 dog: 1
 ```
 
-**2. Movement Narrative:**
+#### Movement Narrative
+
 ```python
 Traffic Narrative:
 Ego car is driving in traffic.
-Detected 5 car(s), with movements: 3 ↓ approaching, 2 → right.
-Detected 3 person(s), with movements: 2 ↑ moving away, 1 ← left.
-Detected 1 bus(s).
-Detected 1 dog(s).
+Detected 5 car(s), with movements: 3 downwards, 2 towards the right.
+Detected 3 person(s), with movements: 2 upwards, 1 leftwards.
+Detected 1 bus.
+Detected 1 dog.
 ```
 
-**3. Visual Output:**
-- Generates `output.mp4` with tracking overlays
-- [Sample Output Video](https://www.dropbox.com/scl/fi/3qxxrugjyrkqj50owvlgf/output.mp4?rlkey=zn8khq90iqkt2q5inb8gfyq0h&st=9yqycqvt&dl=0)
+#### Visual Output
 
----
+* Produces `output.mp4` with bounding boxes and tracking lines
+* Example video shown in documentation (replace with your own link)
 
-### 4. **Main Competition Pipeline** 🚀
 
-**File**: `Both_mix_code_submission.py` *(Proprietary Code)*
 
-#### 🎯 Competition Output Format:
+## 4. Main Competition Pipeline
 
-| Column | Description | Example |
-|--------|-------------|---------|
-| **video** | Video identifier | 558 |
-| **Incident window start frame** | Frame where incident begins | 390 |
-| **Incident Detection** | Type of incident detected | "Near Collision" |
-| **Crash Severity** | Severity rating | "4. Other cars collided but ego-car is ok" |
-| **Ego-car involved** | Ego-car involvement flag | 9 |
-| **Label** | Incident classification | "multi-vehicle collision (ego not involved)" |
-| **Number of Bicyclists/Scooters** | Count of two-wheelers | 0 |
-| **Number of animals involved** | Animal count in incident | 2 |
-| **Number of pedestrians involved** | Pedestrian count | 399 |
-| **Number of vehicles involved** | Other vehicle count | 6 |
-| **Caption Before Incident** | Pre-incident scene description | "Ego-car is driving in heavy traffic." |
-| **Reason of Incident** | Incident cause analysis | "Other vehicles collided near ego-car." |
+**File:** `Both_mix_code_submission.py`
+**Note:** This file contains proprietary competition logic.
 
-#### 📊 Sample Output:
+### Output Format
+
+| Column                         | Description                 | Example                                    |
+| ------------------------------ | --------------------------- | ------------------------------------------ |
+| video                          | Video ID                    | 558                                        |
+| Incident window start frame    | First frame of the incident | 390                                        |
+| Incident Detection             | Incident type               | Near Collision                             |
+| Crash Severity                 | Severity scale              | Other cars collided but ego-car is safe    |
+| Ego-car involved               | Involvement flag            | 9                                          |
+| Label                          | Incident classification     | multi-vehicle collision (ego not involved) |
+| Number of Bicyclists/Scooters  | Count                       | 0                                          |
+| Number of animals involved     | Count                       | 2                                          |
+| Number of pedestrians involved | Count                       | 399                                        |
+| Number of vehicles involved    | Count                       | 6                                          |
+| Caption Before Incident        | Scene description           | Ego-car is driving in heavy traffic.       |
+| Reason of Incident             | Cause                       | Other vehicles collided near ego-car.      |
+
+### Sample CSV Output
+
 ```csv
 video,Incident window start frame,Incident Detection,Crash Severity,Ego-car involved,Label,Number of Bicyclists/Scooters,Number of animals involved,Number of pedestrians involved,Number of vehicles involved (excluding ego-car),Caption Before Incident,Reason of Incident
-558,390,Near Collision,4. Other cars collided but ego-car is ok,9,multi-vehicle collision (ego not involved),0,2,399,6,Ego-car is driving in heavy traffic.,Other vehicles collided near ego-car.
-489,0,No incident,0. No accident,0,no incident,0,0,1,7,Ego-car is driving in heavy traffic.,No accident occurred.
-669,0,No incident,0. No accident,0,no incident,0,0,0,2,Ego-car is driving with light traffic.,No accident occurred.
+558,390,Near Collision,Other cars collided but ego-car is safe,9,multi-vehicle collision (ego not involved),0,2,399,6,Ego-car is driving in heavy traffic.,Other vehicles collided near ego-car.
 ```
 
-## 🚀 Implementation Workflow
 
-### Step 1: Model Training
+# <i class="fa-solid fa-code"></i> Implementation Workflow
+
+### Step 1 — Train Model
+
 ```bash
 python Accident_model_training.py
 ```
-- Output: `accident_model.pth`
 
-### Step 2: Model Validation
+### Step 2 — Validate Model
+
 ```bash
 python Testing_of_Accident_pth.py
 ```
-- Validates model performance
 
-### Step 3: Object Analysis
+### Step 3 — Object Analysis
+
 ```bash
 python Yolo_model_Counter.py --input video.mp4
 ```
-- Generates object counts and movement analysis
 
-### Step 4: Competition Submission
+### Step 4 — Generate Final Competition CSV
+
 ```bash
 python Both_mix_code_submission.py
 ```
-- Produces final competition CSV output
 
-## 🛠️ Technical Specifications
 
-### Hardware Requirements:
-- **GPU**: NVIDIA T4, P100, or better
-- **RAM**: 16GB minimum, 32GB recommended
-- **Storage**: 10GB free space for models and outputs
 
-### Software Dependencies:
-- Python 3.8+
-- PyTorch
-- OpenCV
-- Ultralytics YOLO
-- Pandas, NumPy
+# <i class="fa-solid fa-microchip"></i> Technical Specifications
 
-## 📊 Performance Metrics
+### Hardware
 
-### Accident Classification:
-- **Accuracy**: >85% on test datasets
-- **Inference Speed**: Real-time processing capable
-- **Classes**: 3 incident types with severity grading
+* GPU: NVIDIA T4 / P100 or stronger
+* RAM: 16GB minimum
+* Storage: 10GB recommended
 
-### Object Detection:
-- **Model**: YOLOv8m (medium variant)
-- **Frame Processing**: 16-24 FPS
-- **Tracking**: Multi-object tracking with trajectory analysis
+### Dependencies
 
-## 🔒 Proprietary Notice
+* Python 3.8+
+* PyTorch
+* OpenCV
+* Ultralytics YOLO
+* NumPy, Pandas
 
-**Important**: The main competition code (`Both_mix_code_submission.py`) contains proprietary algorithms and implementation details that are not publicly available. This represents the core intellectual property developed for the 2Coool Kaggle competition.
 
-## 📞 Contact & Support
 
-**Developer**: Aditya (HaradiBots)  
-**Website**: [haradibots.onrender.com](https://haradibots.onrender.com)  
-**WhatsApp**: +91 78872 85338  
-**Instagram**: [@llaka2937](https://instagram.com/llaka2937)
+# <i class="fa-solid fa-chart-line"></i> Performance Metrics
 
----
+### Accident Classification
+
+* Accuracy: above 85 percent on test datasets
+* Real-time inference capability
+
+### Object Detection
+
+* Model: YOLOv8m
+* Frame processing rate: 16–24 FPS
+* Supports multi-object tracking
+
+# <i class="fa-solid fa-lock"></i> Proprietary Notice
+
+The file `Both_mix_code_submission.py` contains competition-critical algorithms and remains private.
+This represents the main intellectual property behind the final solution.
+
+
+# <i class="fa-solid fa-user"></i> Contact
+
+**Developer:** Aditya (HaradiBots)
+**Website:** [https://haradibots.onrender.com](https://haradibots.onrender.com)
+**Instagram:** [https://instagram.com/llaka2937](https://instagram.com/llaka2937)
+**WhatsApp:** +91 78872 85338
 
 <div align="center">
 
-### 🏆 Built with passion for the 2Coool Kaggle Competition
+# HaradiBots
 
-**"Transforming traffic safety through AI-powered incident analysis"**
-
-*HaradiBots - Innovating for safer roads* 🚗💨
+AI-Driven Traffic Safety and Analytics
+Designed and built for the 2Coool Kaggle Competition
 
 </div>
