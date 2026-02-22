@@ -231,8 +231,8 @@ This represents the main intellectual property behind the final solution.
 # <i class="fa-solid fa-user"></i> Contact
 
 **Developer:** Aditya (HaradiBots)
-**Website:** [https://haradibots.onrender.com](https://haradibots.onrender.com)
-**Instagram:** [https://instagram.com/llaka2937](https://instagram.com/llaka2937)
+**Website:** [https://haradibots.onrender.com](https://haradibots.infy.uk)
+**Instagram:** [https://instagram.com/llaka2937](https://instagram.com/haradibots)
 **WhatsApp:** +91 78872 85338
 
 <div align="center">
